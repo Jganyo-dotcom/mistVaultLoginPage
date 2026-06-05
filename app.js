@@ -203,7 +203,7 @@
       const response = await fetch('https://medsec.onrender.com/api/verify-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: currentEmail, token: otp })
+        body: JSON.stringify({ email: currentEmail, otp: otp })
       });
 
       const data = await response.json();
