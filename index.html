@@ -1,1 +1,128 @@
-doc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MistVault - Secure Medical Portal</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="toast-container"></div>
+
+  <div class="shell">
+    <header>
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M19 10.5V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2h13a2 2 0 002-2v-3.5l4 3.5v-11l-4 3.5zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"/></svg>
+      </div>
+      <span class="logo-text">MistVault</span>
+      <span class="logo-tag">Clinical Portal</span>
+    </header>
+
+    <main>
+      <div class="page active" id="page-login">
+        <div class="card">
+          <div class="card-eyebrow">Gateway Validation</div>
+          <h1 class="card-title">Portal Identity Access</h1>
+          <p class="card-sub">Provide institutional credentials to sign in. Multi-factor verification step follows.</p>
+
+          <form id="login-form" novalidate>
+            <div class="field">
+              <label for="email">Institutional Email</label>
+              <input type="email" id="email" placeholder="practitioner@hospital.org" autocomplete="email"/>
+            </div>
+
+            <div class="field">
+              <label for="password">Security Password</label>
+              <div class="pw-wrap">
+                <input type="password" id="password" placeholder="••••••••••••" autocomplete="current-password"/>
+                <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Toggle visibility">
+                  <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="login-btn">
+              <span class="btn-text">Authenticate Credentials</span>
+              <span class="spinner"></span>
+            </button>
+          </form>
+
+          <div class="trust-bar">
+            <div class="trust-item">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0L1.5 3v5c0 4.1 2.8 7.9 6.5 9 3.7-1 6.5-4.9 6.5-9V3L8 0zm0 10.5c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5z"/></svg>
+              HIPAA Compliant
+            </div>
+            <div class="trust-item">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a4 4 0 00-4 4v1H3a1 1 0 00-1 1v6a1 1 0 001 1h10a1 1 0 001-1V7a1 1 0 00-1-1h-1V5a4 4 0 00-4-4z"/></svg>
+              AES-256 Node
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page" id="page-verify">
+        <div class="card">
+          <div id="verify-ui">
+            <div class="card-eyebrow">Two-Factor Authentication</div>
+            <h2 class="card-title">Token Verification</h2>
+            <p class="card-sub">A code was transmitted to <strong id="verify-email">—</strong>. Input your 6-digit dynamic key.</p>
+
+            <div class="timer-wrap">
+              <div class="timer-ring">
+                <svg viewBox="0 0 76 76">
+                  <circle class="track" cx="38" cy="38" r="32"/>
+                  <circle class="progress" id="timer-ring" cx="38" cy="38" r="32"/>
+                </svg>
+                <div class="timer-display">
+                  <span class="timer-time" id="timer-display">05:00</span>
+                </div>
+              </div>
+              <span class="timer-caption">Remaining session life</span>
+            </div>
+
+            <form id="verify-form" novalidate>
+              <div class="otp-group" id="otp-group">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 1"/>
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 2"/>
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 3"/>
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 4"/>
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 5"/>
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 6"/>
+              </div>
+
+              <button type="submit" class="btn-primary" id="verify-btn">
+                <span class="btn-text">Confirm MFA Token</span>
+                <span class="spinner"></span>
+              </button>
+            </form>
+
+            <div class="resend-row">
+              Token didn't arrive? <button type="button" id="resend-btn">Re-issue Code</button>
+            </div>
+          </div>
+
+          <div class="success-overlay" id="success-overlay">
+            <div class="success-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="card-title">Identity Verified</h2>
+            <p class="card-sub">Establishing deep secure handshake. Initializing clinical workspace dashboard environment...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      &copy; 2026 MistVault Inc. Restricted Distribution Cryptographic Node Framework. All rights reserved.
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

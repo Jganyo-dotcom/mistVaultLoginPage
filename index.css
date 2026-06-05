@@ -1,0 +1,506 @@
+*, *::before, *::after { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+:root {
+  --bg:            #0a0f1d;
+  --surface:       #111827;
+  --surface-hover: #1f2937;
+  --input-bg:      #151c2c;
+  --border:        rgba(255, 255, 255, 0.08);
+  --border-focus:  #3b82f6;
+  --accent:        #0ea5e9;
+  --accent-hover:  #0284c7;
+  --text:          #f3f4f6;
+  --text-muted:    #9ca3af;
+  --danger:        #ef4444;
+  --success:       #10b981;
+  --warning:       #f59e0b;
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Subtle, clean professional corporate ambient lighting backgrounds */
+body::before {
+  content: '';
+  position: fixed; 
+  inset: 0;
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.shell {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+header {
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(11, 15, 27, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.logo-mark {
+  width: 34px; 
+  height: 34px;
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  border-radius: 8px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.logo-mark svg { 
+  width: 20px; 
+  height: 20px; 
+  fill: white; 
+}
+
+.logo-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.logo-tag {
+  margin-left: auto;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(14, 165, 233, 0.1);
+  padding: .3rem .75rem;
+  border-radius: 6px;
+}
+
+/* ── Layout Viewports ── */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
+
+.page {
+  display: none;
+  width: 100%;
+  max-width: 440px;
+  animation: pageIn .4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.page.active { 
+  display: block; 
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Identity Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem 2.25rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+.card-eyebrow {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .75rem;
+}
+
+.card-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: .5rem;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.card-sub {
+  font-size: .9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.card-sub strong { 
+  color: var(--text); 
+  font-weight: 500; 
+}
+
+/* ── Interactive Form Modules ── */
+.field { 
+  margin-bottom: 1.25rem; 
+}
+
+label {
+  display: block;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin-bottom: .4rem;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .8rem 1rem;
+  color: var(--text);
+  font-family: inherit;
+  font-size: .95rem;
+  transition: all .2s;
+  outline: none;
+}
+
+input::placeholder { 
+  color: #4b5563; 
+}
+
+input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+input.error { 
+  border-color: var(--danger); 
+}
+
+.pw-wrap { 
+  position: relative; 
+}
+
+.pw-wrap input { 
+  padding-right: 2.75rem; 
+}
+
+.pw-toggle {
+  position: absolute; 
+  right: .85rem; 
+  top: 50%;
+  transform: translateY(-50%);
+  background: none; 
+  border: none; 
+  cursor: pointer;
+  color: var(--text-muted); 
+  padding: .2rem;
+}
+
+.pw-toggle:hover { 
+  color: var(--text); 
+}
+
+.pw-toggle svg { 
+  width: 18px; 
+  height: 18px; 
+  display: block; 
+}
+
+/* ── Action Triggers ── */
+.btn-primary {
+  width: 100%;
+  padding: .85rem 1.5rem;
+  background: var(--accent);
+  border: none; 
+  border-radius: 8px;
+  color: #ffffff; 
+  font-family: inherit; 
+  font-size: .95rem; 
+  font-weight: 500;
+  cursor: pointer; 
+  transition: background .2s, transform .1s;
+}
+
+.btn-primary:hover { 
+  background: var(--accent-hover); 
+}
+
+.btn-primary:active { 
+  transform: scale(0.99); 
+}
+
+.btn-primary:disabled { 
+  opacity: .6; 
+  cursor: not-allowed; 
+  transform: none; 
+}
+
+.btn-primary .spinner {
+  display: none; 
+  width: 18px; 
+  height: 18px;
+  border: 2px solid rgba(255,255,255,.3); 
+  border-top-color: #fff;
+  border-radius: 50%; 
+  animation: spin .6s linear infinite; 
+  margin: 0 auto;
+}
+
+.btn-primary.loading .btn-text { 
+  display: none; 
+}
+
+.btn-primary.loading .spinner { 
+  display: block; 
+}
+
+@keyframes spin { 
+  to { transform: rotate(360deg); } 
+}
+
+/* ── Two-Factor Authentication Modules ── */
+.otp-group { 
+  display: flex; 
+  gap: .5rem; 
+  justify-content: center; 
+  margin: 1.5rem 0 2rem; 
+}
+
+.otp-group input {
+  width: 48px; 
+  height: 54px; 
+  text-align: center;
+  font-size: 1.35rem; 
+  font-weight: 600; 
+  border-radius: 8px; 
+  padding: 0;
+}
+
+/* ── Session Circular Clock ── */
+.timer-wrap { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  margin-bottom: 1.5rem; 
+  gap: .5rem; 
+}
+
+.timer-ring { 
+  position: relative; 
+  width: 76px; 
+  height: 76px; 
+}
+
+.timer-ring svg { 
+  transform: rotate(-90deg); 
+  width: 76px; 
+  height: 76px; 
+}
+
+.timer-ring .track { 
+  fill: none; 
+  stroke: var(--input-bg); 
+  stroke-width: 4; 
+}
+
+.timer-ring .progress {
+  fill: none; 
+  stroke: var(--accent); 
+  stroke-width: 4;
+  stroke-linecap: round; 
+  stroke-dasharray: 201; 
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .9s linear, stroke .3s;
+}
+
+.timer-display {
+  position: absolute; 
+  inset: 0;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center;
+}
+
+.timer-time { 
+  font-size: 1.05rem; 
+  font-weight: 600; 
+  color: var(--text); 
+}
+
+.timer-caption { 
+  font-size: .8rem; 
+  color: var(--text-muted); 
+}
+
+.resend-row { 
+  text-align: center; 
+  font-size: .85rem; 
+  color: var(--text-muted); 
+  margin-top: 1.25rem; 
+}
+
+.resend-row button {
+  background: none; 
+  border: none; 
+  color: var(--accent);
+  font-family: inherit; 
+  font-size: inherit; 
+  cursor: pointer; 
+  font-weight: 500;
+}
+
+.resend-row button:hover { 
+  text-decoration: underline; 
+}
+
+.resend-row button:disabled { 
+  opacity: .4; 
+  cursor: not-allowed; 
+}
+
+/* ── Compliance Badges ── */
+.trust-bar { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  margin-top: 2rem; 
+  padding-top: 1.25rem; 
+  border-top: 1px solid var(--border); 
+}
+
+.trust-item { 
+  display: flex; 
+  align-items: center; 
+  gap: .35rem; 
+  font-size: .72rem; 
+  color: var(--text-muted); 
+  font-weight: 500; 
+}
+
+.trust-item svg { 
+  width: 14px; 
+  height: 14px; 
+  color: var(--success); 
+}
+
+/* ── Success Overlay ── */
+.success-overlay { 
+  display: none; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center; 
+  padding: 1rem 0; 
+}
+
+.success-overlay.visible { 
+  display: flex; 
+}
+
+.success-circle {
+  width: 64px; 
+  height: 64px; 
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success); 
+  border-radius: 50%;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  margin-bottom: 1.25rem;
+}
+
+.success-circle svg { 
+  width: 28px; 
+  height: 28px; 
+  color: var(--success); 
+}
+
+footer { 
+  text-align: center; 
+  padding: 1.5rem; 
+  font-size: .75rem; 
+  color: var(--text-muted); 
+  border-top: 1px solid var(--border); 
+  margin-top: auto; 
+}
+
+/* ── Toast Containers (React-Toastify Engine Architecture) ── */
+#toast-container {
+  position: fixed; 
+  top: 1.5rem; 
+  right: 1.5rem;
+  z-index: 9999; 
+  display: flex; 
+  flex-direction: column; 
+  gap: .75rem;
+  width: 100%; 
+  max-width: 360px; 
+  pointer-events: none;
+}
+
+.toast {
+  padding: 1rem 1.25rem; 
+  border-radius: 10px; 
+  background: #1f2937;
+  color: #fff; 
+  font-size: .88rem; 
+  font-weight: 500; 
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+  display: flex; 
+  align-items: center; 
+  gap: .75rem; 
+  pointer-events: auto;
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  border-left: 4px solid var(--accent);
+}
+
+.toast.success { border-left-color: var(--success); }
+.toast.error   { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+.toast.hide    { animation: toastOut 0.3s forwards; }
+
+@keyframes toastIn { 
+  from { transform: translateX(120%); opacity: 0; } 
+  to   { transform: translateX(0); opacity: 1; } 
+}
+
+@keyframes toastOut { 
+  to { transform: translateX(120%); opacity: 0; } 
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-5px); }
+  40%, 60% { transform: translateX(5px); }
+}
+
+@media (max-width: 480px) {
+  .card { padding: 2rem 1.5rem; }
+  #toast-container { right: 0; left: 0; padding: 0 1rem; max-width: 100%; }
+}
